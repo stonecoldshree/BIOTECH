@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GAT-B 45-Hour War Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --card: #161b22;
+    --border: #21262d;
+    --accent: #f0a500;
+    --accent2: #e05c5c;
+    --accent3: #4fc3f7;
+    --accent4: #66bb6a;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --high: #ff6b6b;
+    --med: #ffd166;
+    --low: #06d6a0;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0a0c10 0%, #111827 50%, #0a0c10 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(240,165,0,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(79,195,247,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index:1; }
+  .tag {
+    display: inline-block;
+    background: rgba(240,165,0,0.15);
+    border: 1px solid rgba(240,165,0,0.4);
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+  h1 span { color: var(--accent); }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+  }
+  .stats-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .stat-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+  }
+  .stat-pill strong { color: var(--accent); }
+
+  /* CRITICAL BOX */
+  .critical-box {
+    max-width: 900px; margin: 2rem auto; padding: 0 1.5rem;
+  }
+  .alert {
+    background: rgba(224,92,92,0.08);
+    border: 1px solid rgba(224,92,92,0.35);
+    border-left: 4px solid var(--accent2);
+    padding: 1rem 1.25rem;
+    border-radius: 4px;
+    font-size: 0.88rem;
+    color: #f0b8b8;
+    margin-bottom: 1.5rem;
+  }
+  .alert strong { color: var(--accent2); }
+
+  /* STRATEGY */
+  .section { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 2.5rem; }
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent3);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+  .section-title span { color: var(--muted); font-size: 0.75rem; font-weight: 400; }
+
+  /* PRIORITY GRID */
+  .priority-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .p-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .p-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .p-card.high::before { background: var(--high); }
+  .p-card.med::before { background: var(--med); }
+  .p-card.low::before { background: var(--low); }
+  .p-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.4rem;
+  }
+  .p-card.high .p-label { color: var(--high); }
+  .p-card.med .p-label { color: var(--med); }
+  .p-card.low .p-label { color: var(--low); }
+  .p-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .p-card ul { list-style: none; }
+  .p-card ul li {
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 2px 0;
+  }
+  .p-card ul li::before { content: '→ '; color: var(--accent); }
+  .hrs-badge {
+    display: inline-block;
+    background: rgba(240,165,0,0.12);
+    border: 1px solid rgba(240,165,0,0.3);
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-top: 0.5rem;
+  }
+
+  /* SCHEDULE TABLE */
+  .schedule { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .schedule thead tr {
+    background: rgba(79,195,247,0.08);
+    border-bottom: 2px solid var(--accent3);
+  }
+  .schedule th {
+    text-align: left;
+    padding: 0.7rem 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent3);
+    letter-spacing: 0.08em;
+  }
+  .schedule td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .schedule tr:hover td { background: rgba(255,255,255,0.02); }
+  .day-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .topic-name { font-weight: 600; color: var(--text); }
+  .topic-focus { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+  .time-cell {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent3);
+    white-space: nowrap;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .badge.H { background: rgba(255,107,107,0.15); color: var(--high); border: 1px solid rgba(255,107,107,0.3); }
+  .badge.M { background: rgba(255,209,102,0.12); color: var(--med); border: 1px solid rgba(255,209,102,0.3); }
+  .badge.L { background: rgba(6,214,160,0.1); color: var(--low); border: 1px solid rgba(6,214,160,0.3); }
+  .badge.R { background: rgba(240,165,0,0.12); color: var(--accent); border: 1px solid rgba(240,165,0,0.3); }
+
+  /* TIPS */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .tip-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+  }
+  .tip-icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .tip-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--accent); }
+  .tip-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  /* CHECKBOX TRACKER */
+  .tracker { display: flex; flex-direction: column; gap: 0.5rem; }
+  .track-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .track-item:hover { background: rgba(255,255,255,0.03); }
+  .track-item.done { border-color: rgba(6,214,160,0.4); }
+  .track-item.done .track-name { text-decoration: line-through; color: var(--muted); }
+  .track-cb {
+    width: 18px; height: 18px;
+    border: 2px solid var(--muted);
+    border-radius: 3px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    color: var(--low);
+    transition: all 0.15s;
+  }
+  .track-item.done .track-cb {
+    background: rgba(6,214,160,0.15);
+    border-color: var(--low);
+  }
+  .track-name { font-size: 0.85rem; flex: 1; }
+  .track-hrs { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+  .progress-bar-wrap {
+    background: var(--border);
+    border-radius: 10px;
+    height: 8px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--low), var(--accent3));
+    border-radius: 10px;
+    transition: width 0.3s ease;
+  }
+  .progress-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+  }
+  footer strong { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .stats-row { gap: 0.75rem; }
+    .schedule th, .schedule td { padding: 0.5rem 0.6rem; font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="tag">⚡ URGENT MODE — GAT-B 2020</div>
+    <h1>45-Hour <span>War Plan</span><br/>for GAT-B Syllabus</h1>
+    <p class="hero-sub">Expert-designed crash strategy by a GAT-B question setter. Every hour counts. Zero filler. Maximum ROI per topic.</p>
+    <div class="stats-row">
+      <div class="stat-pill">⏱ <strong>45 hrs</strong> total</div>
+      <div class="stat-pill">📋 <strong>Part A</strong>: 60 Qs × 1 mark</div>
+      <div class="stat-pill">📋 <strong>Part B</strong>: 60/100 Qs × 3 marks</div>
+      <div class="stat-pill">⚠️ <strong>Negative</strong>: −0.5 (A), −1 (B)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ALERT -->
+<div class="critical-box">
+  <div class="alert">
+    <strong>🚨 EXAM SETTER'S CRITICAL WARNING:</strong> GAT-B Part B is NOT a memorization test — it's a <em>conceptual application</em> exam. Every question requires you to connect mechanisms, not just recall definitions. In 45 hours, your only winning strategy is: <strong>deep understanding of HIGH-WEIGHT topics + smart skipping in the exam hall</strong> (you only answer 60/100).
+  </div>
+</div>
+
+<!-- PRIORITY SECTION -->
+<div class="section">
+  <div class="section-title">01 / TOPIC PRIORITY MAP <span>— based on question frequency & marks ROI</span></div>
+  <div class="priority-grid">
+    <div class="p-card high">
+      <div class="p-label">🔴 PRIORITY 1 — DO FIRST</div>
+      <h3>Core Molecular Biology & Genetics</h3>
+      <ul>
+        <li>DNA replication, transcription, translation</li>
+        <li>Gene regulation (lac operon, etc.)</li>
+        <li>Mutations, DNA repair mechanisms</li>
+        <li>Mendelian genetics + linkage mapping</li>
+        <li>PCR, cloning, gene expression</li>
+      </ul>
+      <span class="hrs-badge">~10 hours</span>
+    </div>
+    <div class="p-card high">
+      <div class="p-label">🔴 PRIORITY 1 — DO FIRST</div>
+      <h3>Biochemistry & Cell Biology</h3>
+      <ul>
+        <li>Enzyme kinetics (Michaelis-Menten)</li>
+        <li>Metabolic pathways: glycolysis, TCA, ETC</li>
+        <li>Biomolecule structures (protein, DNA, lipids)</li>
+        <li>Cell signaling & signal transduction</li>
+        <li>Cell cycle regulation</li>
+      </ul>
+      <span class="hrs-badge">~9 hours</span>
+    </div>
+    <div class="p-card med">
+      <div class="p-label">🟡 PRIORITY 2 — HIGH ROI</div>
+      <h3>Recombinant DNA & Biotechnology</h3>
+      <ul>
+        <li>Vectors, restriction enzymes</li>
+        <li>Southern/Northern blotting</li>
+        <li>Gene therapy, transgenic organisms</li>
+        <li>RFLP, RAPD, DNA fingerprinting</li>
+        <li>Site-directed mutagenesis</li>
+      </ul>
+      <span class="hrs-badge">~7 hours</span>
+    </div>
+    <div class="p-card med">
+      <div class="p-label">🟡 PRIORITY 2 — HIGH ROI</div>
+      <h3>Immunology</h3>
+      <ul>
+        <li>Antibody structure & diversity</li>
+        <li>MHC, antigen processing</li>
+        <li>Innate vs adaptive immunity</li>
+        <li>Hypersensitivity types</li>
+        <li>Monoclonal antibodies / hybridoma</li>
+      </ul>
+      <span class="hrs-badge">~6 hours</span>
+    </div>
+    <div class="p-card med">
+      <div class="p-label">🟡 PRIORITY 2 — HIGH ROI</div>
+      <h3>Microbiology</h3>
+      <ul>
+        <li>Microbial growth kinetics</li>
+        <li>Transformation, transduction, conjugation</li>
+        <li>Nitrogen fixation pathways</li>
+        <li>Viruses: structure & lifecycle</li>
+        <li>Host-pathogen interaction basics</li>
+      </ul>
+      <span class="hrs-badge">~4 hours</span>
+    </div>
+    <div class="p-card low">
+      <div class="p-label">🟢 PRIORITY 3 — SELECTIVE</div>
+      <h3>Bioprocess & Plant/Animal Biotech</h3>
+      <ul>
+        <li>Bioreactor types + kinetics</li>
+        <li>Plant tissue culture essentials</li>
+        <li>Animal cell culture basics</li>
+        <li>Downstream processing overview</li>
+        <li>Bioinformatics: BLAST, alignment</li>
+      </ul>
+      <span class="hrs-badge">~9 hours</span>
+    </div>
+  </div>
+</div>
+
+<!-- HOUR-BY-HOUR SCHEDULE -->
+<div class="section">
+  <div class="section-title">02 / 45-HOUR DAY-BY-DAY SCHEDULE <span>— 9 hours/day × 5 days</span></div>
+  <table class="schedule">
+    <thead>
+      <tr>
+        <th>DAY / HRS</th>
+        <th>TOPIC BLOCK</th>
+        <th>WHAT EXACTLY TO STUDY</th>
+        <th>PRI</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- DAY 1 -->
+      <tr>
+        <td><span class="day-label">DAY 1<br/>Hr 1–3</span><br/><span class="time-cell">3 hrs</span></td>
+        <td><span class="topic-name">Biomolecules & Enzymology</span><span class="topic-focus">Biochemistry core</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Protein structure (1°–4°), DNA/RNA structure, lipid types, enzyme classes. Michaelis-Menten equation, Km/Vmax, competitive vs non-competitive inhibition. Draw the graphs — they appear directly in questions.</td>
+        <td><span class="badge H">HIGH</span></td>
+      </tr>
+      <tr>
+        <td><span class="day-label">DAY 1<br/>Hr 4–6</span><br/><span class="time-cell">3 hrs</span></td>
+        <td><span class="topic-name">Metabolism</span><span class="topic-focus">Glycolysis → TCA → ETC</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Glycolysis steps + energy yield, pyruvate dehydrogenase, TCA cycle intermediates, ETC complexes (I–IV), ATP synthase mechanism, oxidative phosphorylation, photosynthesis (light + dark reactions). Focus on NET ATP counts and which inhibitors block which step.</td>
+        <td><span class="badge H">HIGH</span></td>
+      </tr>
+      <tr>
+        <td><span class="day-label">DAY 1<br/>Hr 7–9</span><br/><span class="time-cell">3 hrs</span></td>
+        <td><span class="topic-name">Membranes & Cell Biology</span><span class="topic-focus">Transport, signaling, cell cycle</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Fluid mosaic model, transport types (active/passive/facilitated), action potential. Cell cycle phases (G1/S/G2/M), CDKs & cyclins, checkpoints. Signal transduction cascades: GPCR, RTK, JAK-STAT. Know the key second messengers (cAMP, IP3, DAG, Ca²⁺).</td>
+        <td><span class="badge H">HIGH</span></td>
+      </tr>
+      <!-- DAY 2 -->
+      <tr>
+        <td><span class="day-label">DAY 2<br/>Hr 1–4</span><br/><span class="time-cell">4 hrs</span></td>
+        <td><span class="topic-name">DNA Replication, Transcription & Translation</span><span class="topic-focus">The MOST tested block in GAT-B</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Prokaryotic vs eukaryotic replication (enzymes: helicase, primase, DNA Pol I/III, ligase). Transcription: promoter, sigma factor, RNA Pol. Post-transcriptional processing (capping, polyadenylation, splicing). Translation: ribosome structure, initiation/elongation/termination factors. Every enzyme is an MCQ candidate.</td>
+        <td><span class="badge H">HIGH</span></td>
+      </tr>
+      <tr>
+        <td><span class="day-label">DAY 2<br/>Hr 5–7</span><br/><span class="time-cell">3 hrs</span></td>
+        <td><span class="topic-name">Gene Regulation & Mutations</span><span class="topic-focus">Regulation mechanisms</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Lac operon (positive + negative regulation), trp operon (attenuation). Eukaryotic gene regulation: enhancers, silencers, transcription factors. Mutation types (missense, nonsense, frameshift). Mutagens (chemical, physical). DNA repair: BER, NER, MMR, DSBR. SOS response in bacteria.</td>
+        <td><span class="badge H">HIGH</span></td>
+      </tr>
+      <tr>
+        <td><span class="day-label">DAY 2<br/>Hr 8–9</span><br/><span class="time-cell">2 hrs</span></td>
+        <td><span class="topic-name">Mendelian Genetics & Linkage</span><span class="topic-focus">Classical genetics</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Ratios for mono/dihybrid crosses, epistasis types, complementation tests, linkage & recombination frequency, chi-square test interpretation, extrachromosomal inheritance (mitochondrial, chloroplast). Transposable elements basics.</td>
+        <td><span class="badge H">HIGH</span></td>
+      </tr>
+      <!-- DAY 3 -->
+      <tr>
+        <td><span class="day-label">DAY 3<br/>Hr 1–3</span><br/><span class="time-cell">3 hrs</span></td>
+        <td><span class="topic-name">Immunology — Part 1</span><span class="topic-focus">Innate + Adaptive immunity</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Innate immunity: physical barriers, pattern recognition (TLRs, NODs), complement (classical, lectin, alternative pathways). Adaptive: B cells vs T cells, clonal selection. Antibody structure (Fab, Fc, heavy/light chains), isotypes (IgG, IgM, IgA, IgE, IgD) and their roles.</td>
+        <td><span class="badge H">HIGH</span></td>
+      </tr>
+      <tr>
+        <td><span class="day-label">DAY 3<br/>Hr 4–6</span><br/><span class="time-cell">3 hrs</span></td>
+        <td><span class="topic-name">Immunology — Part 2</span><span class="topic-focus">MHC, Hypersensitivity, Hybridoma</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">MHC Class I vs II (which cells present, which T cells respond). Antigen processing pathways. Hypersensitivity Types I–IV (Gell-Coombs) — examples for each. Autoimmunity, immune tolerance. Monoclonal antibody production (hybridoma: myeloma + B cell fusion). Polyclonal vs monoclonal differences.</td>
+        <td><span class="badge H">HIGH</span></td>
+      </tr>
+      <tr>
+        <td><span class="day-label">DAY 3<br/>Hr 7–9</span><span class="time-cell"> 3 hrs</span></td>
+        <td><span class="topic-name">Microbiology</span><span class="topic-focus">Classification, Growth, Gene Transfer</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Bacterial classification (Gram+/−, morphology). Viral structure (ds/ssDNA, ds/ssRNA). Microbial growth curve (lag/log/stationary/death). Growth kinetics (μmax, doubling time). Nitrogen fixation: nif genes, nitrogenase. Transformation, transduction (generalized/specialized), conjugation (F plasmid). Biofilms basics.</td>
+        <td><span class="badge M">MED</span></td>
+      </tr>
+      <!-- DAY 4 -->
+      <tr>
+        <td><span class="day-label">DAY 4<br/>Hr 1–4</span><br/><span class="time-cell">4 hrs</span></td>
+        <td><span class="topic-name">Recombinant DNA Technology</span><span class="topic-focus">The practical arm of molecular biology</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Restriction enzymes (Type I/II/III), sticky vs blunt ends. Vectors: plasmids, phage λ, cosmids, BAC, YAC, Ti plasmid. cDNA library vs genomic library construction. PCR (conventional, RT-PCR, qPCR, digital PCR). Southern blot vs Northern blot vs Western blot. RFLP, RAPD. DNA sequencing (Sanger + NGS basics). Site-directed mutagenesis.</td>
+        <td><span class="badge H">HIGH</span></td>
+      </tr>
+      <tr>
+        <td><span class="day-label">DAY 4<br/>Hr 5–7</span><br/><span class="time-cell">3 hrs</span></td>
+        <td><span class="topic-name">Analytical Techniques</span><span class="topic-focus">Microscopy, Spectroscopy, Chromatography</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Microscopy: light vs EM vs fluorescent vs confocal (resolution limits). Centrifugation: differential vs density gradient. Spectroscopy: UV-Vis (Beer-Lambert), CD (protein secondary structure), NMR basics, MS (m/z). Chromatography: ion-exchange, gel filtration, HIC, affinity, HPLC, FPLC principles. SDS-PAGE vs native PAGE. Microarray principle.</td>
+        <td><span class="badge M">MED</span></td>
+      </tr>
+      <tr>
+        <td><span class="day-label">DAY 4<br/>Hr 8–9</span><br/><span class="time-cell">2 hrs</span></td>
+        <td><span class="topic-name">Bioinformatics</span><span class="topic-focus">Databases + Sequence Analysis</span></td>
+        <td style="font-size:0.78nm;color:var(--muted);">Databases: GenBank, UniProt, PDB, EMBL. BLAST (blastn, blastp, tblastn — know which does what). Sequence alignment: global (Needleman-Wunsch) vs local (Smith-Waterman). Scoring matrices: PAM vs BLOSUM. Phylogenetic tree methods. Molecular dynamics basics (force fields, RMSD concept).</td>
+        <td><span class="badge M">MED</span></td>
+      </tr>
+      <!-- DAY 5 -->
+      <tr>
+        <td><span class="day-label">DAY 5<br/>Hr 1–3</span><br/><span class="time-cell">3 hrs</span></td>
+        <td><span class="topic-name">Plant Biotechnology</span><span class="topic-focus">Tissue culture + Transgenics</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Totipotency concept. Callus → regeneration. Growth regulators (auxin:cytokinin ratio). Anther culture (haploid production), embryo culture, somatic hybridization (protoplast fusion → somatic hybrids, cybrids). Transgenic plants: Agrobacterium Ti plasmid mechanism, biolistic method. Somaclonal variation, cryopreservation, synthetic seeds.</td>
+        <td><span class="badge M">MED</span></td>
+      </tr>
+      <tr>
+        <td><span class="day-label">DAY 5<br/>Hr 4–5</span><br/><span class="time-cell">2 hrs</span></td>
+        <td><span class="topic-name">Animal Biotechnology</span><span class="topic-focus">Cell culture + Cloning</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Animal cell culture media (serum, growth factors), primary vs continuous cell lines. Anchorage-dependent vs independent. Hybridoma tech (revisit). Stem cells: totipotent/pluripotent/multipotent. Animal cloning (SCNT — Dolly). Transgenic animals: microinjection. Kinetics of animal cell growth.</td>
+        <td><span class="badge M">MED</span></td>
+      </tr>
+      <tr>
+        <td><span class="day-label">DAY 5<br/>Hr 6–7</span><br/><span class="time-cell">2 hrs</span></td>
+        <td><span class="topic-name">Bioprocess Engineering</span><span class="topic-focus">Reactors, kinetics, scale-up</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Bioreactor types (batch, fed-batch, continuous, CSTR, plug-flow). Monod kinetics. Aeration/agitation (kLa). Sterilization (decimal reduction time, F value). Upstream vs downstream processing. Immobilization methods (entrapment, covalent binding). Chromatographic purification at scale. Bioremediation: aerobic vs anaerobic.</td>
+        <td><span class="badge L">LOW</span></td>
+      </tr>
+      <tr>
+        <td><span class="day-label">DAY 5<br/>Hr 8–9</span><br/><span class="time-cell">2 hrs</span></td>
+        <td><span class="topic-name">🔁 RAPID REVISION</span><span class="topic-focus">Part A + Weak areas + Strategy</span></td>
+        <td style="font-size:0.78rem;color:var(--muted);">Part A speed drill: Physics (optics, thermodynamics), Chemistry (organic reactions, periodic trends), Maths (probability, calculus basics), Biology (NCERT-level: ecology, evolution, human physiology). Revisit your top 3 weak areas. Practice 20 Part-B questions and calibrate: which 60 will you attempt in the exam?</td>
+        <td><span class="badge R">REVIEW</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- PROGRESS TRACKER -->
+<div class="section">
+  <div class="section-title">03 / TOPIC COMPLETION TRACKER <span>— click to mark done</span></div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="progress-label" id="progressLabel">0 / 12 topics completed — 0%</div>
+  <div class="tracker" id="tracker">
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb" id="cb">✓</div><span class="track-name">Biomolecules, Enzymology & Metabolism</span><span class="track-hrs">6 hrs</span></div>
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb">✓</div><span class="track-name">Membranes, Cell Biology & Signaling</span><span class="track-hrs">3 hrs</span></div>
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb">✓</div><span class="track-name">DNA Replication, Transcription & Translation</span><span class="track-hrs">4 hrs</span></div>
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb">✓</div><span class="track-name">Gene Regulation & DNA Repair</span><span class="track-hrs">3 hrs</span></div>
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb">✓</div><span class="track-name">Genetics: Mendelian, Linkage & Molecular Disease</span><span class="track-hrs">2 hrs</span></div>
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb">✓</div><span class="track-name">Immunology (Full: Innate + Adaptive + MHC + Hyper)</span><span class="track-hrs">6 hrs</span></div>
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb">✓</div><span class="track-name">Microbiology (Growth, Classification, Gene Transfer)</span><span class="track-hrs">3 hrs</span></div>
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb">✓</div><span class="track-name">Recombinant DNA Technology & Gene Therapy</span><span class="track-hrs">4 hrs</span></div>
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb">✓</div><span class="track-name">Analytical Techniques (Spectroscopy, Chromatography, Microscopy)</span><span class="track-hrs">3 hrs</span></div>
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb">✓</div><span class="track-name">Bioinformatics (Databases, BLAST, Alignment)</span><span class="track-hrs">2 hrs</span></div>
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb">✓</div><span class="track-name">Plant & Animal Biotechnology</span><span class="track-hrs">5 hrs</span></div>
+    <div class="track-item" onclick="toggle(this)"><div class="track-cb">✓</div><span class="track-name">Bioprocess Engineering + Rapid Revision</span><span class="track-hrs">4 hrs</span></div>
+  </div>
+</div>
+
+<!-- EXPERT TIPS -->
+<div class="section">
+  <div class="section-title">04 / EXAM SETTER'S INSIDER TIPS</div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon">🎯</div>
+      <h4>The 60/100 Advantage</h4>
+      <p>You only answer 60 out of 100 in Part B. Pre-decide your 5 skip-topics (e.g. full bioprocess math). This eliminates panic in the exam hall.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">⚖️</div>
+      <h4>Negative Marking Math</h4>
+      <p>In Part B: wrong = −1, right = +3. Your break-even is 25% guess accuracy. Never guess blindly — skip if you're below 40% confident.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🔗</div>
+      <h4>Learn in Clusters</h4>
+      <p>Questions often cross topics. E.g., "Which enzyme in PCR is thermostable and lacks 3'→5' exonuclease?" tests biochemistry + rDNA together. Study mechanisms, not just definitions.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">📊</div>
+      <h4>Diagram-First Learning</h4>
+      <p>Draw the lac operon, TCA cycle, antibody structure, and ETC on paper. GAT-B loves questions based on reading diagrams and identifying components.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🔬</div>
+      <h4>Technique Questions = Easy Marks</h4>
+      <p>Questions on PCR, ELISA, FACS, Western blot, and chromatography are direct and predictable. These are 100% scoreable — don't skip them.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">⏰</div>
+      <h4>9-Hour Day Structure</h4>
+      <p>Split as: 3 hrs study → 30 min break → 3 hrs study → 30 min break → 2 hrs study → 30 min active recall (close book, write what you remember).</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">📝</div>
+      <h4>Part A Strategy</h4>
+      <p>Part A (10+2 level) is where you can bank easy marks. Spend the last 2 hours on NCERT Biology + PCM basics. Target 50+/60 in Part A as your safety net.</p>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🧠</div>
+      <h4>Active Recall Over Re-Reading</h4>
+      <p>After every 3-hr block, close your notes and write/speak out everything you remember. This single habit triples retention vs passive re-reading.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  GAT-B 45-Hour War Plan · Built for <strong>maximum ROI under extreme time pressure</strong><br/>
+  Regional Centre for Biotechnology | Exam Duration: 180 min | Total: 60+60 questions
+</footer>
+
+<script>
+  function toggle(el) {
+    el.classList.toggle('done');
+    updateProgress();
+  }
+  function updateProgress() {
+    const items = document.querySelectorAll('.track-item');
+    const done = document.querySelectorAll('.track-item.done').length;
+    const pct = Math.round((done / items.length) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent =
+      `${done} / ${items.length} topics completed — ${pct}%`;
+  }
+</script>
+</body>
+</html>
